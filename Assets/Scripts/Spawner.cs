@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -28,10 +27,10 @@ public class Spawner : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(Spawn());
+        StartCoroutine(Spawning());
     }
 
-    private IEnumerator Spawn()
+    private IEnumerator Spawning()
     {
         while (enabled)
         {

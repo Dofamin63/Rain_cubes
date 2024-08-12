@@ -27,10 +27,10 @@ public class Cube : MonoBehaviour
             _renderer.material.color = Random.ColorHSV();
         }
 
-        StartCoroutine(Life());
+        StartCoroutine(Living());
     }
 
-    private IEnumerator Life()
+    private IEnumerator Living()
     {
         _lifeTime = new WaitForSeconds(Random.Range(_minLiveTime, _maxLiveTime));
         yield return _lifeTime;
