@@ -41,14 +41,14 @@ public class Spawner : MonoBehaviour
     
     private void OnGet(Cube cube)
     {
-        cube.TimeIsUp += OnRelease;
+        cube.LifeOver += OnRelease;
         cube.transform.position = new Vector3(Random.Range(_minPosition, _maxPosition), _height, Random.Range(_minPosition, _maxPosition));
         cube.gameObject.SetActive(true);
     }
 
     private void OnRelease(Cube cube)
     {
-        cube.TimeIsUp -= OnRelease;
+        cube.LifeOver -= OnRelease;
         _pool.Release(cube);
     }
 }

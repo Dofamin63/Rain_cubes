@@ -12,7 +12,7 @@ public class Cube : MonoBehaviour
     private Color _defaultColor;
     private Renderer _renderer;
 
-    public event Action<Cube> TimeIsUp; 
+    public event Action<Cube> LifeOver; 
 
     private void Awake()
     {
@@ -35,7 +35,7 @@ public class Cube : MonoBehaviour
         _lifeTime = new WaitForSeconds(Random.Range(_minLiveTime, _maxLiveTime));
         yield return _lifeTime;
         SetDefaultColor();
-        TimeIsUp?.Invoke(this);
+        LifeOver?.Invoke(this);
     }
     
     private void SetDefaultColor()
