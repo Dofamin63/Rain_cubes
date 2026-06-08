@@ -42,4 +42,5 @@ public class Cube : MonoBehaviour
     {
         _renderer.material.color = _defaultColor;
     }
+    
 }
