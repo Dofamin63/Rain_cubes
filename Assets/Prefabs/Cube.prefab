@@ -147,8 +147,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6b6c01104c4a554a965011d67e575bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minLiveTime: 2
-  _maxLiveTime: 7
+  _minTime: 0
+  _maxTime: 0
+  _defaultColor: {r: 1, g: 1, b: 1, a: 0}
 --- !u!65 &3920384133381810150
 BoxCollider:
   m_ObjectHideFlags: 0

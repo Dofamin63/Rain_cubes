@@ -5,42 +5,32 @@ using Random = UnityEngine.Random;
 
 public class Cube : MonoBehaviour
 {
-    [SerializeField] private int _minLiveTime;
-    [SerializeField] private int _maxLiveTime;
+    [SerializeField] private float _minTime;
+    [SerializeField] private float _maxTime;
+    [SerializeField] private Color _defaultColor;
+    private CubeSpawner _spawner;
+    private bool _isFirstCollision = true;
 
-    private WaitForSeconds _lifeTime;
-    private Color _defaultColor;
-    private Renderer _renderer;
-
-    public event Action<Cube> LifeOver; 
-
-    private void Awake()
+    public void Init(CubeSpawner spawner)
     {
-        _defaultColor = Color.white;
-        _renderer = GetComponent<Renderer>();
+        _spawner = spawner;
+        _isFirstCollision = true;
+        GetComponent<Renderer>().material.color = _defaultColor;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (_renderer.material.color == _defaultColor)
+        if (_isFirstCollision)
         {
-            _renderer.material.color = Random.ColorHSV();
+            _isFirstCollision = false;
+            GetComponent<Renderer>().material.color = Random.ColorHSV();
+            StartCoroutine(Living());
         }
-
-        StartCoroutine(Living());
     }
 
     private IEnumerator Living()
     {
-        _lifeTime = new WaitForSeconds(Random.Range(_minLiveTime, _maxLiveTime));
-        yield return _lifeTime;
-        SetDefaultColor();
-        LifeOver?.Invoke(this);
+        yield return new WaitForSeconds(Random.Range(_minTime, _maxTime));
+        _spawner.OnRelease(this);
     }
-    
-    private void SetDefaultColor()
-    {
-        _renderer.material.color = _defaultColor;
-    }
-    
 }
