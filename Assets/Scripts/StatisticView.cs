@@ -1,20 +1,32 @@
 using TMPro;
 using UnityEngine;
 
-public class StatisticView : MonoBehaviour
+[RequireComponent(typeof(TextMeshProUGUI))]
+public abstract class StatisticView<T> : MonoBehaviour where T : SpawnableObject<T>
 {
-    [SerializeField] private CubeSpawner _cubeSpawner;
-    [SerializeField] private BombSpawner _bombSpawner;
+    [SerializeField] private Spawner<T> _spawner;
     private TextMeshProUGUI _text;
 
-    public void Awake()
+    private void Start()
     {
         _text = GetComponent<TextMeshProUGUI>();
+        UpdateDisplay(_spawner);
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        _text.text = $"Spawned cubes: {_cubeSpawner.TotalSpawned} | Created: {_cubeSpawner.TotalCreated} | Active: {_cubeSpawner.ActiveCount}\n" +
-                     $"Spawned bomb: {_bombSpawner.TotalSpawned} | Created: {_bombSpawner.TotalCreated} | Active: {_bombSpawner.ActiveCount}";
+        _spawner.CountChanged += UpdateDisplay;
+    }
+
+    private void OnDisable()
+    {
+        _spawner.CountChanged -= UpdateDisplay;
+    }
+
+    private void UpdateDisplay(Spawner<T> spawner)
+    {
+        _text.text = $"Spawned {typeof(T).Name}: {spawner.TotalSpawned} | " +
+                     $"Created: {spawner.TotalCreated} | " +
+                     $"Active: {spawner.ActiveCount}";
     }
 }

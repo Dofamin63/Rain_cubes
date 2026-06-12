@@ -1,0 +1,1 @@
+public class CubeStatisticView : StatisticView<Cube> { }

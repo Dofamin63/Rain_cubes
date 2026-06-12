@@ -1,21 +1,25 @@
-using System;
 using System.Collections;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-public class Cube : MonoBehaviour
+[RequireComponent(typeof(ColorChanger))]
+public class Cube : SpawnableObject<Cube>
 {
-    [SerializeField] private float _minTime;
-    [SerializeField] private float _maxTime;
     [SerializeField] private Color _defaultColor;
-    private CubeSpawner _spawner;
-    private bool _isFirstCollision = true;
+    
+    private ColorChanger _colorChanger;
+    private bool _isFirstCollision;
 
-    public void Init(CubeSpawner spawner)
+    protected override void Awake()
     {
-        _spawner = spawner;
+        base.Awake();
+        _colorChanger = GetComponent<ColorChanger>();
+    }
+
+    public override void Init()
+    {
+        base.Init();
         _isFirstCollision = true;
-        GetComponent<Renderer>().material.color = _defaultColor;
+        _colorChanger.SetColor(_defaultColor);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -23,14 +27,14 @@ public class Cube : MonoBehaviour
         if (_isFirstCollision)
         {
             _isFirstCollision = false;
-            GetComponent<Renderer>().material.color = Random.ColorHSV();
+            _colorChanger.SetRandomColor();
             StartCoroutine(Living());
         }
     }
 
     private IEnumerator Living()
     {
-        yield return new WaitForSeconds(Random.Range(_minTime, _maxTime));
-        _spawner.OnRelease(this);
+        yield return new WaitForSeconds(Random.Range(MinTime, MaxTime));
+        NotifyLifeEnded();
     }
 }
