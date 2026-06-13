@@ -26,16 +26,17 @@ public class Bomb : SpawnableObject<Bomb>
         _colorChanger.SetAlpha(_color, _maxTransparency);
         StartCoroutine(Living());
     }
-
+    protected override Bomb GetSpawnableObject() => this;
+    
     private IEnumerator Living()
     {
         float duration = Random.Range(MinTime, MaxTime);
-        float zeroTime = 0f;
+        float elapsedTime = 0f;
 
-        while (zeroTime < duration)
+        while (elapsedTime < duration)
         {
-            zeroTime += Time.deltaTime;
-            float alpha = Mathf.Lerp(_maxTransparency, _minTransparency, zeroTime / duration);
+            elapsedTime += Time.deltaTime;
+            float alpha = Mathf.Lerp(_maxTransparency, _minTransparency, elapsedTime / duration);
             _colorChanger.SetAlpha(_color, alpha);
             yield return null;
         }

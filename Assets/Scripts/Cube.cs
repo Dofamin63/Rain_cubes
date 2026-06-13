@@ -21,6 +21,8 @@ public class Cube : SpawnableObject<Cube>
         _isFirstCollision = true;
         _colorChanger.SetColor(_defaultColor);
     }
+    
+    protected override Cube GetSpawnableObject() => this;
 
     private void OnCollisionEnter(Collision collision)
     {

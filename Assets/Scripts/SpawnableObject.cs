@@ -21,9 +21,10 @@ public abstract class SpawnableObject<T> : MonoBehaviour where T : SpawnableObje
         ObjectRigidbody.velocity = Vector3.zero;
         ObjectRigidbody.angularVelocity = Vector3.zero;
     }
+    protected abstract T GetSpawnableObject();
 
     protected void NotifyLifeEnded()
     {
-        LifeEnded?.Invoke((T)this);
+        LifeEnded?.Invoke(GetSpawnableObject());
     }
 }
